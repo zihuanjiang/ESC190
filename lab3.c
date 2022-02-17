@@ -1,11 +1,12 @@
 #include "lab3.h"
+#include <string.h>
 
 //Add TA party item request to the list
 int add_request(struct party_node **head, char *item, double price, char *ta){
     if (strcmp(item,"IDE") == 0) return -1;
     struct party_node *new_node = malloc(sizeof(struct party_node));
-    new_node->item = malloc(sizeof(char)*100);
-    new_node->ta = malloc(sizeof(char)*100);
+    new_node->item = malloc(sizeof(char)*(strlen(item)+1));
+    new_node->ta = malloc(sizeof(char)*(strlen(ta)+1));
     strcpy(new_node->item,item);
     strcpy(new_node->ta,ta);
     new_node->price = price;
@@ -16,11 +17,12 @@ int add_request(struct party_node **head, char *item, double price, char *ta){
 
 //Remove the last item added
 void remove_request(struct party_node **head){
-    struct party_node *temp = *head;
-    *head = temp->next;
+    struct party_node* temp = *head;
+    struct party_node* next_node = temp->next;
     free(temp->item);
     free(temp->ta);
     free(temp);
+    *head = next_node;
 }
 
 //Sort party item requests - in place?
